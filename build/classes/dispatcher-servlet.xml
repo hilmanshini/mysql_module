@@ -1,0 +1,98 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!-- was: <?xml version="1.0" encoding="UTF-8"?> -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd       
+       http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd       
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd" >
+    <context:component-scan base-package="com.hilman.test.etiqa"></context:component-scan>
+    
+    
+    
+    <!--SQL-->
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
+          destroy-method="close">
+        <property name="driverClass" value="com.mysql.jdbc.Driver" />
+        <!--<property name="jdbcUrl" value="jdbc:mysql://156.67.216.38:3306/gmi_arisan" />-->
+        <property name="jdbcUrl" value="jdbc:mysql://127.0.0.1:3306/test_app" />
+        <property name="preferredTestQuery" value="select 1"/>
+        
+        
+        <property name="initialPoolSize" value="3" />
+        <property name="minPoolSize" value="6" />
+        <property name="maxPoolSize" value="25" />
+        <property name="acquireIncrement" value="3" />
+        <property name="maxStatements" value="0" />
+        <!-- retries -->
+        
+        <property name="acquireRetryAttempts" value="3" />
+        <property name="acquireRetryDelay" value="1000" /> <!-- 1s -->
+        <property name="breakAfterAcquireFailure" value="false" />
+        <!-- refreshing connections -->
+        <property name="maxIdleTime" value="180" /> <!-- 3min -->
+        <property name="maxConnectionAge" value="5" /> <!-- 1h -->
+        <!-- timeouts and testing -->
+        <property name="checkoutTimeout" value="1000" /> <!-- 5s -->
+        <property name="idleConnectionTestPeriod" value="5" /> <!-- 60 -->
+        <property name="testConnectionOnCheckout" value="true" />
+        
+        <property name="testConnectionOnCheckin" value="true" />
+        
+        <property name="properties">
+            <props>			
+               
+                <!--                <prop key="c3p0.max_size">20</prop>
+                <prop key="c3p0.min_size">0</prop>
+                <prop key="c3p0.max_statements">0</prop>
+                <prop key="c3p0.timeout" >300</prop>
+                <prop key="c3p0.max_statements" >50</prop>
+                <prop key="c3p0.idle_test_period" >3000</prop>
+                <prop key="c3p0.acquireRetryAttempts" >30</prop>
+                <prop key="c3p0.acquire_increment">1</prop>
+                <prop key="c3p0.acquireRetryDelay" >5000</prop>
+                <prop key="c3p0.acquireRetryAttempts">0</prop>
+                <prop key="c3p0.maxConnectionAge">6000</prop>
+                <prop key="c3p0.maxIdleTime">6000</prop>
+                <prop key="c3p0.maxIdleTimeExcessConnections">1800</prop>
+                <prop key="c3p0.idleConnectionTestPeriod">3600</prop>
+                <prop key="c3p0.testConnectionOnCheckout">true</prop>-->
+				
+                <!--<prop key="user">gmi_adr</prop>-->
+                <prop key="user">root</prop>
+                <prop key="password">yukitosan</prop>
+            </props>
+        </property>
+        
+    </bean>
+    <bean id="dbPriksa"
+          class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+        <property name="dataSource" ref="dataSource" />
+        
+        
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+                <prop key="hibernate.current_session_context_class">thread</prop>
+                <prop key="hibernate.show_sql">true</prop>
+            </props>
+        </property>
+    </bean>
+    <bean id="config" class="com.hilman.test.etiqa.sql_module.service.Config">
+        <property name="signingKey" value="here_is_the_secret"/>
+        <property name="page_list_adm_teacher" value="10"/>
+        <property name="page_list_adm_student" value="10"/>
+        <property name="page_list_adm_class" value="10"/>
+        
+    </bean>
+    
+    
+    
+    
+</beans>
